@@ -100,6 +100,19 @@
     border:1px dashed #ccc;
     color:#555;
   }
+
+  textarea{
+    width:100%;
+    margin-top:10px;
+    height:140px;
+    border-radius:10px;
+    padding:10px;
+    font-size:14px;
+    border:1px solid #ddd;
+  }
+
+  .row{display:flex;gap:10px;}
+  .small-btn{padding:8px 12px;border-radius:8px;border:0;background:#eee;cursor:pointer}
 </style>
 </head>
 
@@ -126,31 +139,51 @@
       <h3>Стандарт</h3>
       <div class="line"><span>Расчётная сумма</span><span class="val" id="stdCalc">—</span></div>
       <div class="line"><span>Разница</span><span class="diff zero" id="stdDiff">—</span></div>
+      <textarea id="stdMsg" placeholder="Сообщение оператору появится здесь"></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px;"><button class="small-btn" id="copyStd">Копировать</button><button class="small-btn" id="openStd">Открыть чат</button></div>
     </div>
 
     <div class="panel">
       <h3>Комфорт</h3>
       <div class="line"><span>Расчётная сумма</span><span class="val" id="cfCalc">—</span></div>
       <div class="line"><span>Разница</span><span class="diff zero" id="cfDiff">—</span></div>
+      <textarea id="cfMsg" placeholder="Сообщение оператору появится здесь"></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px;"><button class="small-btn" id="copyCf">Копировать</button><button class="small-btn" id="openCf">Открыть чат</button></div>
     </div>
 
     <div class="panel">
       <h3>Бизнес</h3>
       <div class="line"><span>Расчётная сумма</span><span class="val" id="bizCalc">—</span></div>
       <div class="line"><span>Разница</span><span class="diff zero" id="bizDiff">—</span></div>
+      <textarea id="bizMsg" placeholder="Сообщение оператору появится здесь"></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px;"><button class="small-btn" id="copyBiz">Копировать</button><button class="small-btn" id="openBiz">Открыть чат</button></div>
     </div>
 
   </div>
 </div>
 
 <script>
-const STD = {minKm:1.9, base:100, perKm:17};
-const CFM = {minKm:2.1, base:115, perKm:19.8};
-const BIZ = {minKm:1.6, base:140, perKm:23.5};
+const STD = {minKm:1.9, base:100, perKm:17, name:"Стандарт"};
+const CFM = {minKm:2.1, base:115, perKm:19.8, name:"Комфорт"};
+const BIZ = {minKm:1.6, base:140, perKm:23.5, name:"Бизнес"};
 
 function calcFare(km, t){
   if(km <= t.minKm) return t.base;
   return t.base + (km - t.minKm) * t.perKm;
+}
+
+function buildMessage(t, km, coef, fact, calc){
+return `Тариф: ${t.name}
+Пробег: ${km} км
+Коэффициент: x${coef}
+Оплачено: ${fact} грн
+
+Минимальная цена: ${t.base} грн за ${t.minKm} км
+Цена за км: ${t.perKm} грн
+Расчёт: ${calc.toFixed(2)} грн
+Разница: ${(calc - fact).toFixed(2)} грн
+
+Прошу проверить корректность начисления и выполнить перерасчёт.`;
 }
 
 function fmt(x){return isNaN(x) ? "—" : x.toFixed(2) + " ₴";}
@@ -186,7 +219,35 @@ document.getElementById("calcBtn").onclick = function(){
   colorize(document.getElementById("stdDiff"), actual - std);
   colorize(document.getElementById("cfDiff"), actual - cf);
   colorize(document.getElementById("bizDiff"), actual - biz);
+
+  // fill messages
+  document.getElementById('stdMsg').value = buildMessage(STD, km, coef, actual, std);
+  document.getElementById('cfMsg').value = buildMessage(CFM, km, coef, actual, cf);
+  document.getElementById('bizMsg').value = buildMessage(BIZ, km, coef, actual, biz);
 };
+
+// copy buttons
+function copyText(id){
+  const ta = document.getElementById(id);
+  ta.select();
+  ta.setSelectionRange(0, 99999);
+  document.execCommand('copy');
+}
+document.getElementById('copyStd').onclick = ()=>copyText('stdMsg');
+document.getElementById('copyCf').onclick = ()=>copyText('cfMsg');
+document.getElementById('copyBiz').onclick = ()=>copyText('bizMsg');
+
+// open chat — tries to open tel: or chat url (best-effort)
+function openChat(prefill){
+  // best-effort: open mailto or whatsapp web with prefilled text
+  const text = encodeURIComponent(prefill);
+  const wa = `https://wa.me/?text=${text}`;
+  window.open(wa, '_blank');
+}
+document.getElementById('openStd').onclick = ()=>openChat(document.getElementById('stdMsg').value);
+document.getElementById('openCf').onclick = ()=>openChat(document.getElementById('cfMsg').value);
+document.getElementById('openBiz').onclick = ()=>openChat(document.getElementById('bizMsg').value);
+
 </script>
 
 </body>
