@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="ru">
+<html lang="uk">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-<title>Uklon — Проверка расчётов</title>
+<title>Uklon — Перевірка розрахунків</title>
 
 <style>
   :root{
@@ -118,45 +118,45 @@
 
 <body>
 <div class="wrap">
-  <h1>Проверка расчётов Uklon</h1>
+  <h1>Перевірка розрахунків Uklon</h1>
 
   <div class="card">
-    <label>Фактическая сумма, грн</label>
-    <input id="actual" type="number" placeholder="например 155">
+    <label>Фактична сума, грн</label>
+    <input id="actual" type="number" placeholder="наприклад 155">
 
-    <label>Пробег, км</label>
-    <input id="distance" type="number" step="0.01" placeholder="например 3.0">
+    <label>Пробіг, км</label>
+    <input id="distance" type="number" step="0.01" placeholder="наприклад 3.0">
 
-    <label>Коэффициент</label>
+    <label>Коефіцієнт</label>
     <input id="coef" type="number" step="0.01" value="1">
 
-    <button class="btn" id="calcBtn">Посчитать</button>
+    <button class="btn" id="calcBtn">Розрахувати</button>
   </div>
 
   <div class="results">
 
     <div class="panel">
       <h3>Стандарт</h3>
-      <div class="line"><span>Расчётная сумма</span><span class="val" id="stdCalc">—</span></div>
-      <div class="line"><span>Разница</span><span class="diff zero" id="stdDiff">—</span></div>
-      <textarea id="stdMsg" placeholder="Сообщение оператору появится здесь"></textarea>
-      <div style="margin-top:8px;display:flex;gap:8px;"><button class="small-btn" id="copyStd">Копировать</button><button class="small-btn" id="openStd">Открыть чат</button></div>
+      <div class="line"><span>Розрахункова сума</span><span class="val" id="stdCalc">—</span></div>
+      <div class="line"><span>Різниця</span><span class="diff zero" id="stdDiff">—</span></div>
+      <textarea id="stdMsg" placeholder="Повідомлення для оператора зʼявиться тут"></textarea>
+      <button class="small-btn" id="copyStd">Копіювати</button>
     </div>
 
     <div class="panel">
       <h3>Комфорт</h3>
-      <div class="line"><span>Расчётная сумма</span><span class="val" id="cfCalc">—</span></div>
-      <div class="line"><span>Разница</span><span class="diff zero" id="cfDiff">—</span></div>
-      <textarea id="cfMsg" placeholder="Сообщение оператору появится здесь"></textarea>
-      <div style="margin-top:8px;display:flex;gap:8px;"><button class="small-btn" id="copyCf">Копировать</button><button class="small-btn" id="openCf">Открыть чат</button></div>
+      <div class="line"><span>Розрахункова сума</span><span class="val" id="cfCalc">—</span></div>
+      <div class="line"><span>Різниця</span><span class="diff zero" id="cfDiff">—</span></div>
+      <textarea id="cfMsg" placeholder="Повідомлення для оператора зʼявиться тут"></textarea>
+      <button class="small-btn" id="copyCf">Копіювати</button>
     </div>
 
     <div class="panel">
-      <h3>Бизнес</h3>
-      <div class="line"><span>Расчётная сумма</span><span class="val" id="bizCalc">—</span></div>
-      <div class="line"><span>Разница</span><span class="diff zero" id="bizDiff">—</span></div>
-      <textarea id="bizMsg" placeholder="Сообщение оператору появится здесь"></textarea>
-      <div style="margin-top:8px;display:flex;gap:8px;"><button class="small-btn" id="copyBiz">Копировать</button><button class="small-btn" id="openBiz">Открыть чат</button></div>
+      <h3>Бізнес</h3>
+      <div class="line"><span>Розрахункова сума</span><span class="val" id="bizCalc">—</span></div>
+      <div class="line"><span>Різниця</span><span class="diff zero" id="bizDiff">—</span></div>
+      <textarea id="bizMsg" placeholder="Повідомлення для оператора зʼявиться тут"></textarea>
+      <button class="small-btn" id="copyBiz">Копіювати</button>
     </div>
 
   </div>
@@ -165,7 +165,7 @@
 <script>
 const STD = {minKm:1.9, base:100, perKm:17, name:"Стандарт"};
 const CFM = {minKm:2.1, base:115, perKm:19.8, name:"Комфорт"};
-const BIZ = {minKm:1.6, base:140, perKm:23.5, name:"Бизнес"};
+const BIZ = {minKm:1.6, base:140, perKm:23.5, name:"Бізнес"};
 
 function calcFare(km, t){
   if(km <= t.minKm) return t.base;
@@ -174,16 +174,16 @@ function calcFare(km, t){
 
 function buildMessage(t, km, coef, fact, calc){
 return `Тариф: ${t.name}
-Пробег: ${km} км
-Коэффициент: x${coef}
-Оплачено: ${fact} грн
+Пробіг: ${km} км
+Коефіцієнт: x${coef}
+Сплачено: ${fact} грн
 
-Минимальная цена: ${t.base} грн за ${t.minKm} км
-Цена за км: ${t.perKm} грн
-Расчёт: ${calc.toFixed(2)} грн
-Разница: ${(calc - fact).toFixed(2)} грн
+Мінімальна ціна: ${t.base} грн за ${t.minKm} км
+Ціна за км: ${t.perKm} грн
+Розрахунок: ${calc.toFixed(2)} грн
+Різниця: ${(calc - fact).toFixed(2)} грн
 
-Прошу проверить корректность начисления и выполнить перерасчёт.`;
+Прошу перевірити коректність нарахування та виконати перерахунок.`;
 }
 
 function fmt(x){return isNaN(x) ? "—" : x.toFixed(2) + " ₴";}
@@ -203,52 +203,72 @@ document.getElementById("calcBtn").onclick = function(){
   let km = parseFloat(document.getElementById("distance").value);
   let coef = parseFloat(document.getElementById("coef").value);
 
-  if(isNaN(km) || isNaN(coef)){
-    alert("Введите корректные данные");
+  if(isNaN(km) || isNaN(coef) || isNaN(actual)){
+    alert("Введіть коректні дані");
     return;
   }
 
-  let std = calcFare(km, STD) * coef;
-  let cf = calcFare(km, CFM) * coef;
-  let biz = calcFare(km, BIZ) * coef;
+  // base and total
+  const stdBase = calcFare(km, STD);
+  const cfBase = calcFare(km, CFM);
+  const bizBase = calcFare(km, BIZ);
 
-  document.getElementById("stdCalc").textContent = fmt(std);
-  document.getElementById("cfCalc").textContent = fmt(cf);
-  document.getElementById("bizCalc").textContent = fmt(biz);
+  const stdTotal = stdBase * coef;
+  const cfTotal = cfBase * coef;
+  const bizTotal = bizBase * coef;
 
-  colorize(document.getElementById("stdDiff"), actual - std);
-  colorize(document.getElementById("cfDiff"), actual - cf);
-  colorize(document.getElementById("bizDiff"), actual - biz);
+  // display totals
+  document.getElementById("stdCalc").textContent = fmt(stdTotal);
+  document.getElementById("cfCalc").textContent = fmt(cfTotal);
+  document.getElementById("bizCalc").textContent = fmt(bizTotal);
 
-  // fill messages
-  document.getElementById('stdMsg').value = buildMessage(STD, km, coef, actual, std);
-  document.getElementById('cfMsg').value = buildMessage(CFM, km, coef, actual, cf);
-  document.getElementById('bizMsg').value = buildMessage(BIZ, km, coef, actual, biz);
+  // differences for coloring (actual - calc): positive => переплата (green)
+  const dStd = actual - stdTotal;
+  const dCf = actual - cfTotal;
+  const dBiz = actual - bizTotal;
+
+  colorize(document.getElementById("stdDiff"), dStd);
+  colorize(document.getElementById("cfDiff"), dCf);
+  colorize(document.getElementById("bizDiff"), dBiz);
+
+  // prepare breakdown strings (show full calculation) and messages only when calc > actual
+  function breakdownString(base, t){
+    if(km <= t.minKm) return `${t.base} × ${coef}`;
+    return `(${t.base} + (${km} - ${t.minKm}) × ${t.perKm}) × ${coef}`;
+  }
+
+  function genMsg(name, calcTotal){
+    const diff = calcTotal - actual; // positive means customer недоплатив
+    if(!(diff > 0)) return "";
+    const breakdown = breakdownString(null, name === STD.name ? STD : (name === CFM.name ? CFM : BIZ));
+    return `Доброго дня! Прошу провести перерахунок вартості поїздки.
+Розрахункова сума становить ${calcTotal.toFixed(2)} грн (${breakdown}).
+Фактична — ${actual.toFixed(2)} грн.
+Прошу донарахувати різницю у розмірі ${diff.toFixed(2)} грн.`;
+  }
+
+  // fill messages (only if calc > actual)
+  document.getElementById('stdMsg').value = genMsg(STD.name, stdTotal);
+  document.getElementById('cfMsg').value = genMsg(CFM.name, cfTotal);
+  document.getElementById('bizMsg').value = genMsg(BIZ.name, bizTotal);
+
+  // copy buttons
+  function copyIfNotEmpty(btnId, taId){
+    document.getElementById(btnId).onclick = function(){
+      const t = document.getElementById(taId);
+      if(!t.value){ alert('Немає повідомлення для копіювання'); return; }
+      t.select();
+      t.setSelectionRange(0, 99999);
+      try{ navigator.clipboard.writeText(t.value); alert('Скопійовано'); }
+      catch(e){ document.execCommand('copy'); alert('Скопійовано'); }
+    };
+  }
+
+  copyIfNotEmpty('copyStd', 'stdMsg');
+  copyIfNotEmpty('copyCf', 'cfMsg');
+  copyIfNotEmpty('copyBiz', 'bizMsg');
 };
 
-// copy buttons
-function copyText(id){
-  const ta = document.getElementById(id);
-  ta.select();
-  ta.setSelectionRange(0, 99999);
-  document.execCommand('copy');
-}
-document.getElementById('copyStd').onclick = ()=>copyText('stdMsg');
-document.getElementById('copyCf').onclick = ()=>copyText('cfMsg');
-document.getElementById('copyBiz').onclick = ()=>copyText('bizMsg');
-
-// open chat — tries to open tel: or chat url (best-effort)
-function openChat(prefill){
-  // best-effort: open mailto or whatsapp web with prefilled text
-  const text = encodeURIComponent(prefill);
-  const wa = `https://wa.me/?text=${text}`;
-  window.open(wa, '_blank');
-}
-document.getElementById('openStd').onclick = ()=>openChat(document.getElementById('stdMsg').value);
-document.getElementById('openCf').onclick = ()=>openChat(document.getElementById('cfMsg').value);
-document.getElementById('openBiz').onclick = ()=>openChat(document.getElementById('bizMsg').value);
-
 </script>
-
 </body>
 </html>
