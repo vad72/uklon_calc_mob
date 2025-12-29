@@ -12,7 +12,7 @@
   .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 22px rgba(10,10,10,0.06);}
   label{display:block;color:var(--muted);font-size:14px;margin:8px 0 6px;}
   input[type=number]{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ee;font-size:16px;box-sizing:border-box;}
-  .btn{width:100%;margin-top:12px;padding:12px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;font-size:16px;cursor:pointer;}
+  .btn{flex:1;padding:12px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;font-size:16px;cursor:pointer;}
   .results{margin-top:14px;display:grid;grid-template-columns:1fr;gap:12px;}
   .panel{background:#fff;border-radius:10px;padding:12px;border:1px solid #e9eef8;}
   .panel h3{margin:0 0 8px;font-size:16px;}
@@ -20,60 +20,62 @@
   .line:first-of-type{border-top:0;padding-top:0;}
   .val{font-weight:700;}
   .diff{display:inline-block;padding:6px 10px;border-radius:8px;min-width:80px;text-align:center;font-weight:700;}
-  textarea{width:100%;height:110px;border-radius:8px;padding:8px;border:1px solid #ddd;box-sizing:border-box;margin-top:8px;font-size:14px;resize:vertical;}
+  textarea{width:100%;height:160px;border-radius:8px;padding:8px;border:1px solid #ddd;box-sizing:border-box;margin-top:8px;font-size:14px;resize:vertical;}
   .small-row{display:flex;gap:8px;margin-top:8px;}
   .small-btn{flex:1;padding:8px;border-radius:8px;border:0;background:#efefef;cursor:pointer;}
   .note{font-size:13px;color:var(--muted);margin-top:8px;}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Перевірка розрахунків Uklon</h1>
+<div class="wrap">
+  <h1>Перевірка розрахунків Uklon</h1>
 
-    <div class="card">
-      <label for="actual">Фактична сума, грн</label>
-      <input id="actual" type="number" step="0.01" placeholder="наприклад 155">
+  <div class="card">
+    <label for="actual">Фактична сума, грн</label>
+    <input id="actual" type="number" step="0.01" placeholder="наприклад 155">
 
-      <label for="distance">Пробіг, км</label>
-      <input id="distance" type="number" step="0.01" placeholder="наприклад 3.0">
+    <label for="distance">Пробіг, км</label>
+    <input id="distance" type="number" step="0.01" placeholder="наприклад 3.0">
 
-      <label for="coef">Коефіцієнт</label>
-      <input id="coef" type="number" step="0.01" value="1">
+    <label for="coef">Коефіцієнт</label>
+    <input id="coef" type="number" step="0.01" value="1">
 
+    <div style="display:flex;gap:8px;margin-top:12px;">
       <button id="calcBtn" class="btn">Розрахувати</button>
-
-      <div id="status" class="note"></div>
+      <button id="clearBtn" class="btn" style="background:#ccc;color:#000;">Очистити</button>
     </div>
 
-    <div class="results">
-      <div class="panel" id="panel-std">
-        <h3>Стандарт</h3>
-        <div class="line"><div>Розрахункова сума</div><div class="val" id="stdCalc">—</div></div>
-        <div class="line"><div>Різниця</div><div class="diff" id="stdDiff">—</div></div>
-        <textarea id="stdMsg" placeholder="Повідомлення для оператора зʼявиться тут" readonly></textarea>
-        <div class="small-row"><button id="copyStd" class="small-btn">Копіювати</button></div>
-      </div>
-
-      <div class="panel" id="panel-cf">
-        <h3>Комфорт</h3>
-        <div class="line"><div>Розрахункова сума</div><div class="val" id="cfCalc">—</div></div>
-        <div class="line"><div>Різниця</div><div class="diff" id="cfDiff">—</div></div>
-        <textarea id="cfMsg" placeholder="Повідомлення для оператора зʼявиться тут" readonly></textarea>
-        <div class="small-row"><button id="copyCf" class="small-btn">Копіювати</button></div>
-      </div>
-
-      <div class="panel" id="panel-biz">
-        <h3>Бізнес</h3>
-        <div class="line"><div>Розрахункова сума</div><div class="val" id="bizCalc">—</div></div>
-        <div class="line"><div>Різниця</div><div class="diff" id="bizDiff">—</div></div>
-        <textarea id="bizMsg" placeholder="Повідомлення для оператора зʼявиться тут" readonly></textarea>
-        <div class="small-row"><button id="copyBiz" class="small-btn">Копіювати</button></div>
-      </div>
-    </div>
+    <div id="status" class="note"></div>
   </div>
 
+  <div class="results">
+    <div class="panel" id="panel-std">
+      <h3>Стандарт</h3>
+      <div class="line"><div>Розрахункова сума</div><div class="val" id="stdCalc">—</div></div>
+      <div class="line"><div>Різниця</div><div class="diff" id="stdDiff">—</div></div>
+      <textarea id="stdMsg" placeholder="Повідомлення для оператора зʼявиться тут" readonly></textarea>
+      <div class="small-row"><button id="copyStd" class="small-btn">Копіювати</button></div>
+    </div>
+
+    <div class="panel" id="panel-cf">
+      <h3>Комфорт</h3>
+      <div class="line"><div>Розрахункова сума</div><div class="val" id="cfCalc">—</div></div>
+      <div class="line"><div>Різниця</div><div class="diff" id="cfDiff">—</div></div>
+      <textarea id="cfMsg" placeholder="Повідомлення для оператора зʼявиться тут" readonly></textarea>
+      <div class="small-row"><button id="copyCf" class="small-btn">Копіювати</button></div>
+    </div>
+
+    <div class="panel" id="panel-biz">
+      <h3>Бізнес</h3>
+      <div class="line"><div>Розрахункова сума</div><div class="val" id="bizCalc">—</div></div>
+      <div class="line"><div>Різниця</div><div class="diff" id="bizDiff">—</div></div>
+      <textarea id="bizMsg" placeholder="Повідомлення для оператора зʼявиться тут" readonly></textarea>
+      <div class="small-row"><button id="copyBiz" class="small-btn">Копіювати</button></div>
+    </div>
+  </div>
+</div>
+
 <script>
-// fallback (статические значения из view-source)
 const FALLBACK = {
   STD:{minKm:1.9, base:100, perKm:17.6, name:"Стандарт"},
   CFM:{minKm:2.1, base:115, perKm:20.4, name:"Комфорт"},
@@ -82,32 +84,26 @@ const FALLBACK = {
 let STD = {...FALLBACK.STD}, CFM = {...FALLBACK.CFM}, BIZ = {...FALLBACK.BIZ};
 const statusEl = document.getElementById('status');
 
-// === НОВЫЙ ФУНКЦИОНАЛ loadTariffs (точно по твоему алгоритму) ===
 async function loadTariffs(){
   const target = "https://uklon.com.ua/driver-update/knowledge-base/driver-update-taryfy/";
   const proxy = "https://cors.eu.org/" + encodeURIComponent(target);
-
   statusEl.textContent = "Завантаження тарифів з Uklon...";
   try{
     const resp = await fetch(proxy, {mode:'cors'});
     if(!resp.ok) throw new Error('Network status ' + resp.status);
     const html = await resp.text();
     const doc = new DOMParser().parseFromString(html, 'text/html');
-
-    // находим блок для Києва
     const cityBlock = doc.querySelector('[data-city-data-id="1"]');
     if(!cityBlock) throw new Error('Не знайдено data-city-data-id="1"');
 
-    // функция строгого поиска и извлечения по твоим селекторам
     function extractFor(tariffTitle){
       const items = Array.from(cityBlock.querySelectorAll('.driver-tariffs__item'));
       const block = items.find(it=>{
         const titleEl = it.querySelector('.driver-tariffs__item--title');
         return titleEl && titleEl.textContent.trim() === tariffTitle;
       });
-      if(!block) { console.warn('Блок тарифу не знайдено:', tariffTitle); return null; }
+      if(!block) return null;
 
-      // ищем строки <th> и соответствующие td.driver-tariffs-price span:nth-child(2)
       const rows = Array.from(block.querySelectorAll('tr'));
       let base = null, perKm = null;
       rows.forEach(r=>{
@@ -124,33 +120,19 @@ async function loadTariffs(){
     const c = extractFor('Comfort');
     const b = extractFor('Business');
 
-    // если нашли — записываем (проверяем на null)
-    if(s && Number.isFinite(s.base) && Number.isFinite(s.perKm)){
-      STD.base = s.base; STD.perKm = s.perKm;
-    } else console.warn('Standard not found or incomplete, using fallback');
-
-    if(c && Number.isFinite(c.base) && Number.isFinite(c.perKm)){
-      CFM.base = c.base; CFM.perKm = c.perKm;
-    } else console.warn('Comfort not found or incomplete, using fallback');
-
-    if(b && Number.isFinite(b.base) && Number.isFinite(b.perKm)){
-      BIZ.base = b.base; BIZ.perKm = b.perKm;
-    } else console.warn('Business not found or incomplete, using fallback');
+    if(s && Number.isFinite(s.base) && Number.isFinite(s.perKm)){ STD.base = s.base; STD.perKm = s.perKm; }
+    if(c && Number.isFinite(c.base) && Number.isFinite(c.perKm)){ CFM.base = c.base; CFM.perKm = c.perKm; }
+    if(b && Number.isFinite(b.base) && Number.isFinite(b.perKm)){ BIZ.base = b.base; BIZ.perKm = b.perKm; }
 
     statusEl.textContent = "Тарифи завантажені (Uklon, Київ).";
-    console.log('Loaded tariffs:', {STD,CFM,BIZ});
   }catch(err){
     console.error('loadTariffs error:', err);
     statusEl.textContent = "Помилка завантаження тарифів — використано локальні значення";
-    // оставляем FALLBACK
   }
 }
-
-// запускаем загрузку (не блокирует UI)
 loadTariffs();
 
-// === расчёты и UI ===
-function calcFare(km, t){ if(km <= t.minKm) return t.base; return t.base + (km - t.minKm) * t.perKm; }
+function calcFare(km, t){ return (km <= t.minKm ? t.base : t.base + (km - t.minKm) * t.perKm); }
 function fmt(x){ return isNaN(x) ? '—' : x.toFixed(2) + ' ₴'; }
 function setDiff(el, val){
   el.className = 'diff';
@@ -160,24 +142,22 @@ function setDiff(el, val){
   else if(val > 0){ el.style.background='var(--green)'; el.style.color='var(--good)'; }
   else { el.style.background=''; el.style.color=''; }
 }
+
 function buildDetailedMsg(t, distance, coeff, totalCalc, orderPrice){
   if(totalCalc <= orderPrice) return '';
   const extraKm = Math.max(0, distance - t.minKm);
-  const extraCost = extraKm * t.perKm;
-  const breakdown = `(${t.base} + (${distance} - ${t.minKm}) × ${t.perKm.toFixed(2)}) × ${coeff}`;
-  const fullCalc = (t.base + extraCost) * coeff;
+  const subtotal = (t.base + extraKm * t.perKm).toFixed(2);
+  const fullCalc = (subtotal * coeff).toFixed(2);
   const diff = (totalCalc - orderPrice).toFixed(2);
-  return `Доброго дня! Прошу провести перерахунок вартості поїздки (тариф: ${t.name}).
+
+  return `Тариф: ${t.name} 
 Пробіг: ${distance} км
 Коефіцієнт: ${coeff}
 Сума в замовленні: ${orderPrice.toFixed(2)} грн
 
-Розрахункова сума: ${totalCalc.toFixed(2)} грн (${breakdown})
-(Пояснення: ${t.base} + ${extraKm.toFixed(2)} × ${t.perKm.toFixed(2)} = ${(t.base+extraCost).toFixed(2)}; × ${coeff} = ${fullCalc.toFixed(2)} грн)
+Розрахункова сума: ${fullCalc} грн (( ${t.base} + (${distance} - ${t.minKm}) × ${t.perKm.toFixed(2)}) × ${coeff} )
 
-Різниця до доплати: ${diff} грн.
-
-Дякую!`;
+Прошу доплати: ${diff} грн.`;
 }
 
 document.getElementById('calcBtn').addEventListener('click', ()=>{
@@ -194,13 +174,9 @@ document.getElementById('calcBtn').addEventListener('click', ()=>{
   document.getElementById('cfCalc').textContent = fmt(cfTotal);
   document.getElementById('bizCalc').textContent = fmt(bizTotal);
 
-  const diffStd = actual - stdTotal;
-  const diffCf  = actual - cfTotal;
-  const diffBiz = actual - bizTotal;
-
-  setDiff(document.getElementById('stdDiff'), diffStd);
-  setDiff(document.getElementById('cfDiff'), diffCf);
-  setDiff(document.getElementById('bizDiff'), diffBiz);
+  setDiff(document.getElementById('stdDiff'), actual - stdTotal);
+  setDiff(document.getElementById('cfDiff'), actual - cfTotal);
+  setDiff(document.getElementById('bizDiff'), actual - bizTotal);
 
   document.getElementById('stdMsg').value = buildDetailedMsg(STD, km, coeff, stdTotal, actual);
   document.getElementById('cfMsg').value  = buildDetailedMsg(CFM, km, coeff, cfTotal, actual);
@@ -219,6 +195,24 @@ setupCopy('copyStd','stdMsg');
 setupCopy('copyCf','cfMsg');
 setupCopy('copyBiz','bizMsg');
 
+// кнопка Очистити
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  document.getElementById('actual').value = '';
+  document.getElementById('distance').value = '';
+  document.getElementById('coef').value = '1';
+
+  document.getElementById('stdCalc').textContent = '—';
+  document.getElementById('cfCalc').textContent = '—';
+  document.getElementById('bizCalc').textContent = '—';
+  document.getElementById('stdDiff').textContent = '—';
+  document.getElementById('cfDiff').textContent = '—';
+  document.getElementById('bizDiff').textContent = '—';
+  document.getElementById('stdMsg').value = '';
+  document.getElementById('cfMsg').value = '';
+  document.getElementById('bizMsg').value = '';
+
+  document.getElementById('actual').focus();
+});
 </script>
 </body>
 </html>
